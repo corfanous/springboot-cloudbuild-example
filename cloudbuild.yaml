@@ -1,9 +1,13 @@
 #steps:
 #  - name: 'gcr.io/cloud-builders/mvn'
 #  - args: ["-DskipTests", "package", "com.google.cloud.tools:jib-maven-plugin:build","-Dimage=gcr.io/$PROJECT_ID/hello-java:v1"]
+#steps:
+#  - name: 'gcr.io/cloud-builders/mvn'
+#    args: ['-DskipTests','install']
+#  - name: 'gcr.io/cloud-builders/docker'
+#    args: ['build', '--tag=gcr.io/$PROJECT_ID/hello-java', '.']
+#images: ['gcr.io/$PROJECT_ID/hello-java']
+
 steps:
   - name: 'gcr.io/cloud-builders/mvn'
-    args: ['-DskipTests','install']
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '--tag=gcr.io/$PROJECT_ID/hello-java', '.']
-images: ['gcr.io/$PROJECT_ID/hello-java']
+    args: ['-DskipTests', 'compile', 'jib:build']

@@ -16,6 +16,8 @@
 
 	<properties>
 		<java.version>1.8</java.version>
+		<google.project.id>my-kubernetes-codelab-336610</google.project.id>
+		<google.project.image>hello-java:v1</google.project.image>
 	</properties>
 
 	<dependencies>
@@ -45,6 +47,16 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+				<version>2.8.0</version>
+				<configuration>
+					<to>
+						<image>gcr.io/${google.project.id}/${google.project.image}</image>
+					</to>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
