@@ -20,7 +20,7 @@ steps:
   # gcloud container clusters get-credentials hello-codelab-cluster --zone us-central1-c --project my-kubernetes-codelab-336610
   - name: 'gcr.io/cloud-builders/gcloud'
     args: ['container', 'clusters', 'get-credentials', 'hello-codelab-cluster',
-         '--zone us-central1-c', '--project', 'my-kubernetes-codelab-336610']
+         '--zone', ' us-central1-c', '--project', 'my-kubernetes-codelab-336610']
   # Step 3: Deploy image as a kubernetes deployment
   - name: 'gcr.io/cloud-builders/kubectl'
     args: ['create', '-f', './k8s/']
