@@ -18,9 +18,21 @@ steps:
     args: ['-DskipTests', 'compile', 'jib:build']
   # Set 2: Connect to the kubernetes cluster
   # gcloud container clusters get-credentials hello-codelab-cluster --zone us-central1-c --project my-kubernetes-codelab-336610
-  - name: 'gcr.io/cloud-builders/gcloud'
-    args: ['container', 'clusters', 'get-credentials', 'hello-codelab-cluster',
-         '--zone', 'us-central1-c', '--project', 'my-kubernetes-codelab-336610']
-  # Step 3: Deploy image as a kubernetes deployment
-  - name: 'gcr.io/cloud-builders/kubectl'
-    args: ['create', '-f', './k8s/']
+#  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+#    entrypoint: 'gcloud'
+#    args: ['container', 'clusters', 'get-credentials', 'hello-codelab-cluster',
+#         '--zone', 'us-central1-c', '--project', '$PROJECT_ID']
+#    env:
+#      - 'CLOUDSDK_COMPUTE_REGION=us-central1'
+#      - 'CLOUDSDK_COMPUTE_ZONE=us-central1-c'
+#      - 'CLOUDSDK_CONTAINER_CLUSTER=hello-codelab-cluster'
+  - name: 'gcr.io/cloud-builders/gke-deploy'
+    args:
+      - run
+      - --filename=./k8s/
+      - --image=gcr.io/my-kubernetes-codelab-336610/hello-java:v1
+      - --location=us-central1-c
+      - --cluster=hello-codelab-cluster
+        # Step 3: Deploy image as a kubernetes deployment
+#  - name: 'gcr.io/cloud-builders/kubectl'
+#    args: ['create', '-f', './k8s/']
