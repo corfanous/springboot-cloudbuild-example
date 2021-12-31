@@ -1,6 +1,9 @@
+#THIS DID NOT WORK
 #steps:
 #  - name: 'gcr.io/cloud-builders/mvn'
 #  - args: ["-DskipTests", "package", "com.google.cloud.tools:jib-maven-plugin:build","-Dimage=gcr.io/$PROJECT_ID/hello-java:v1"]
+
+#THIS REQUIRES DOCKER FILE
 #steps:
 #  - name: 'gcr.io/cloud-builders/mvn'
 #    args: ['-DskipTests','install']
@@ -8,6 +11,16 @@
 #    args: ['build', '--tag=gcr.io/$PROJECT_ID/hello-java', '.']
 #images: ['gcr.io/$PROJECT_ID/hello-java']
 
+#THIS WORKS, BY MODIFYING THE POM.XML FILE TO ADD THE JIB PLUGIN
 steps:
+  # Step 1: build the image and push it to container registry
   - name: 'gcr.io/cloud-builders/mvn'
     args: ['-DskipTests', 'compile', 'jib:build']
+  # Set 2: Connect to the kubernetes cluster
+  # gcloud container clusters get-credentials hello-codelab-cluster --zone us-central1-c --project my-kubernetes-codelab-336610
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: ['container', 'clusters', 'get-credentials', 'hello-codelab-cluster',
+         '--zone us-central1-c', '--project', 'my-kubernetes-codelab-336610']
+  # Step 3: Deploy image as a kubernetes deployment
+  - name: 'gcr.io/cloud-builders/kubectl'
+    args: ['create', '-f', './k8s/']
